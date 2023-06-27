@@ -8,6 +8,8 @@ class BuildingConfigurationSerializer(serializers.ModelSerializer):
         model = BuildingConfiguration
         fields = "__all__"
 
+    # When we add building configuration based of number of elevator,
+    # here we are creating that number of entry in Elevator Model
     def create(self, validated_data):
         try:
             building_obj = super().create(validated_data=validated_data)
