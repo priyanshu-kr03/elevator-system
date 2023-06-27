@@ -11,7 +11,6 @@ class BuildingConfigurationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         try:
             building_obj = super().create(validated_data=validated_data)
-            print("Hello", building_obj)
             for elevator in range(validated_data["num_lifts"]):
                 elevator_obj = ElevatorSerializer(
                     data={
