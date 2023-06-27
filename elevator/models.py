@@ -16,7 +16,7 @@ class BuildingConfiguration(models.Model):
 class Elevator(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     building = models.ForeignKey(BuildingConfiguration, on_delete=models.DO_NOTHING)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=3)
     door_status = models.IntegerField(choices=DOOR_STATUS_CHOICES, default=1)
     floor = models.IntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
