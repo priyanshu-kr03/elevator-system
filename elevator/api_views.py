@@ -43,14 +43,17 @@ class RequestElevatorView(APIView):
                                                 | Q(status=3))
 
         if not elevators.exists():
-            elevators = Elevator.objects.filter(building=building_id)
-            requested_elevator = random.choice(elevators)
-            serializer = ElevatorSerializer(requested_elevator)
-            response = Response(serializer.data)
-            requested_elevator.status = direction
-            requested_elevator.floor = floor
-            requested_elevator.save()
-            return response
+            elevators = Elevator.objects.filter(building=building_id).exclude(status=4)
+            if elevators.exists():
+                requested_elevator = random.choice(elevators)
+                serializer = ElevatorSerializer(requested_elevator)
+                response = Response(serializer.data)
+                requested_elevator.status = direction
+                requested_elevator.floor = floor
+                requested_elevator.save()
+                return response
+            else:
+                return Response({"message: Elevators are not in funtion"})
         else:
             requested_elevator = random.choice(elevators)
             serializer = ElevatorSerializer(requested_elevator)
