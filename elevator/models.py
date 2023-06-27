@@ -18,5 +18,6 @@ class Elevator(models.Model):
     building = models.ForeignKey(BuildingConfiguration, on_delete=models.DO_NOTHING)
     status = models.IntegerField(choices=STATUS_CHOICES, default=1)
     door_status = models.IntegerField(choices=DOOR_STATUS_CHOICES, default=1)
+    floor = models.IntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
 
