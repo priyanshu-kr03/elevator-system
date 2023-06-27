@@ -1,9 +1,31 @@
 from rest_framework import serializers
 
-from .models import BuildingConfiguration
+from .models import BuildingConfiguration, Elevator
 
 
 class BuildingConfigurationSerializer(serializers.ModelSerializer):
     class Meta:
         model = BuildingConfiguration
+        fields = "__all__"
+
+    def create(self, validated_data):
+        try:
+            building_obj = super().create(validated_data=validated_data)
+            print("Hello", building_obj)
+            for elevator in range(validated_data["num_lifts"]):
+                elevator_obj = ElevatorSerializer(
+                    data={
+                        "building": building_obj.id
+                    }
+                )
+                elevator_obj.is_valid(raise_exception=True)
+                elevator_obj.save()
+            return building_obj
+        except Exception as e:
+            raise Exception("Error in creating elevator model", e)
+
+
+class ElevatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Elevator
         fields = "__all__"
