@@ -37,10 +37,10 @@ class RequestElevatorView(APIView):
         elevators = None
         if direction == 1:  # If person want to go up
             elevators = Elevator.objects.filter(Q(building=building_id, floor__lte=floor, status=position_of_elevator)
-                                                | Q(status=3))
+                                                | Q(status=3)).exclude(status=4)
         elif direction == 2:  # If person want to go down
             elevators = Elevator.objects.filter(Q(building=building_id, floor__gte=floor, status=position_of_elevator)
-                                                | Q(status=3))
+                                                | Q(status=3)).exclude(status=4)
 
         if not elevators.exists():
             elevators = Elevator.objects.filter(building=building_id).exclude(status=4)
