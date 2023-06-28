@@ -38,13 +38,13 @@ class RequestElevatorView(APIView):
         # If a person wants to go UP then we are fetching is there any lift whose status DOWN(status=2)
         # or is there any lift which is ideal(status=4) and excluding all those lifts which are under maintenance
         if direction == 1:
-            elevators = Elevator.objects.filter(Q(building=building_id, floor__lte=floor, status=status_of_elevator)
-                                                | Q(status=3)).exclude(status=4)
+            elevators = Elevator.objects.filter(Q(building=building_id, floor__lte=floor) & (Q(status=status_of_elevator)
+                                                | Q(status=3))).exclude(status=4)
         elif direction == 2:
             # If a person wants to go DOWN then we are fetching is there any lift whose status UP(status=1)
             # or is there any lift which is ideal(status=4) and excluding all those lifts which are under maintenance
-            elevators = Elevator.objects.filter(Q(building=building_id, floor__gte=floor, status=status_of_elevator)
-                                                | Q(status=3)).exclude(status=4)
+            elevators = Elevator.objects.filter(Q(building=building_id, floor__gte=floor) & (Q(status=status_of_elevator)
+                                                | Q(status=3))).exclude(status=4)
 
         # If there are no lift available then we are just taking out a random lift from available lifts and changing
         # status and floor of the lift accordingly
